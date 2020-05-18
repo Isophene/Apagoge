@@ -1,0 +1,15 @@
+:root {
+    --body-background-color: #eeeeee;
+    --body-color: #282a36;
+
+    --nav-color: #dddddd;
+
+    --sidebar-color: #dddddd;
+    --sidebar-child-odd-color: #cccccc;
+    --sidebar-link-color: #282a36;
+    --sidebar-link-decoration: underline solid #282a36;
+
+    --link-color: royalblue;
+    --hr-color: royalblue;
+    --code-color: #a0a8d9;
+}

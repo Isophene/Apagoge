@@ -1,0 +1,181 @@
+html {
+    font-family: 'Jost', 'Sergoe UI', sans-serif;
+    font-weight: 300;
+
+    height: 100%;
+
+    transition: color, background-color 0.2s linear;
+}
+
+body {
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: var(--body-background-color);
+    color: var(--body-color);
+
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+
+    transition: color, background-color 0.2s linear;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Light', sans-serif;
+    font-weight: normal;
+
+    margin: 0;
+}
+
+a {
+    color: var(--link-color);
+
+    transition: filter 0.2s linear;
+}
+
+a:hover {
+    filter: brightness(0.8);
+}
+
+hr {
+    width: 85%;
+    height: 2px;
+    border: none;
+    background-color: var(--hr-color);
+}
+
+nav {
+    background-color: var(--nav-color);
+
+    height: 60px;
+    width: 100%;
+    border: 0;
+    z-index: 999;
+    top: 0;
+}
+
+nav > div {
+    display: flex;
+    margin: 0 auto;
+    width: 85%;
+    height: 100%;
+}
+
+nav > div > * {
+    margin: auto 0;
+}
+
+div#content {
+    display: flex;
+
+    flex-grow: 1;
+}
+
+div#content > #sidebar {
+    display: inline-flex;
+    flex-direction: column;
+
+    min-width: 150px;
+    max-width: 150px;
+    width: 150px;
+
+    background-color: var(--sidebar-color);
+
+    overflow-y: auto;
+}
+
+#sidebar > div {
+    height: 1px;
+}
+
+#sidebar > div > * {
+    background-color: var(--sidebar-color);
+    flex-direction: column;
+    justify-content: center;
+
+    display: flex;
+    padding: 10px;
+    height: 20px;
+}
+
+#sidebar > div > *:nth-child(odd) {
+    background-color: var(--sidebar-child-odd-color);
+}
+
+#sidebar > div > a {
+    cursor: pointer;
+    color: var(--sidebar-link-color);
+
+    text-decoration: var(--sidebar-link-decoration);
+
+    transition: all 0.14s linear;
+}
+
+#sidebar > div > a:hover {
+    filter: brightness(0.8);
+}
+
+#sidebar > div > a:active {
+    filter: brightness(0.7);
+}
+
+div#content > #data {
+    padding: 10px;
+
+    overflow: hidden auto;
+    white-space: pre-wrap;
+
+    display: inline-flex;
+
+    flex: 1 1 auto;
+}
+
+div#content > #data > div {
+    height: 1px;
+}
+
+div#content > #data > div:not(.no) > *:first-child {
+     text-align: center;
+    font-size: 1.3em;
+ }
+
+a.run_link:not(.dead) {
+    cursor: pointer;
+}
+
+.no {
+    white-space: normal;
+}
+
+.dead {
+    color: red;
+    text-decoration: line-through;
+    filter: brightness(0.9);
+}
+
+.commit {
+    font-family: monospace;
+    white-space: pre-wrap;
+
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.commit code {
+    background-color: var(--code-color);
+    white-space: pre-wrap;
+    display: block;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.commit table {
+    border-collapse: collapse;
+}
+
+.commit table, .commit th, .commit td {
+    border: 1px solid black;
+}
