@@ -80,7 +80,7 @@ div#content > #sidebar {
 
     min-width: 150px;
     max-width: 150px;
-    width: 150px;
+    width: 125px;
 
     background-color: var(--sidebar-color);
 
