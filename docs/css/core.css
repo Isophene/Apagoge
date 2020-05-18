@@ -78,8 +78,8 @@ div#content > #sidebar {
     display: inline-flex;
     flex-direction: column;
 
-    min-width: 150px;
-    max-width: 150px;
+    min-width: 125px;
+    max-width: 125px;
     width: 125px;
 
     background-color: var(--sidebar-color);
