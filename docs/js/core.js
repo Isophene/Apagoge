@@ -9,7 +9,7 @@
     let dataElem = document.getElementById('data');
 
     let repoUser = 'boomboompower';
-    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG'];
+    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'MyIgnore'];
 
     repoIds.forEach(id => {
         let elem = document.createElement('a');
