@@ -68,6 +68,26 @@ nav > div > * {
     margin: auto 0;
 }
 
+div#loading {
+    position: absolute;
+    opacity: 0;
+
+    top: 0;
+    left: 0;
+
+    width: 50px;
+    height: 50px;
+
+    z-index: 100000;
+}
+
+div#loading > img {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 100%;
+}
+
 div#content {
     display: flex;
 
@@ -85,6 +105,11 @@ div#content > #sidebar {
     background-color: var(--sidebar-color);
 
     overflow-y: auto;
+}
+
+/* They are buttons not text */
+#sidebar > * {
+    user-select: none;
 }
 
 #sidebar > div {

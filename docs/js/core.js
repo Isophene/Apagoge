@@ -3,13 +3,18 @@
     "use strict";
 
     // These are hacks to get storm to shut up
-    let release; let asset; release = asset = Object.create(null, {}); release.assets = release.prerelease = release.draft = release.tag_name = asset.browser_download_url = undefined;
+    let release; let asset; release = asset = Object.create(null, {});
+    release.assets = release.author = release.author.avatar_url = release.author.login = release.prerelease = release.draft = release.tag_name = asset.browser_download_url = undefined;
 
     let sidebarElem = document.getElementById('sidebar').children[0];
     let dataElem = document.getElementById('data');
+    let loadingElem = document.getElementById('loading');
 
     let repoUser = 'boomboompower';
     let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'MessageAlerter', 'MyIgnore'];
+
+    // The ID of the LAST clicked id.
+    let wantingCurrent = null;
 
     repoIds.forEach(id => {
         let elem = document.createElement('a');
@@ -22,9 +27,27 @@
     });
 
     async function getGithubRuns(id) {
+        // Store the ID of this id
+        // to prevent data desync occuring.
+        wantingCurrent = id;
+
+        loadingElem.style.opacity = '1';
+
         const url = 'https://api.github.com/repos/' + repoUser + '/' + id + '/releases';
 
         let bob = await getJSONContent(url);
+
+        // Stop desync, if the user clicks multiple tabs in
+        // quick succession we only want the latest one to
+        // show up, this blocks slower queries overriding the
+        // latest clicked page/repository.
+        //
+        // The user will not notice this change
+        if (wantingCurrent !== id) {
+            return;
+        }
+
+        loadingElem.style.opacity = '0';
 
         const holder = document.createElement('div');
         const title = document.createElement('div');
