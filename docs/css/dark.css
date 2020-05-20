@@ -1,5 +1,6 @@
 :root {
     --body-background-color: #282a36;
+    --body-scrollbar-color: #4d5066;
     --body-color: #eeeeee;
 
     --nav-color: #44475a;
@@ -9,7 +10,10 @@
     --sidebar-link-color: #92cee0;
     --sidebar-link-decoration: underline solid transparent;
 
-    --link-color: greenyellow;
+    --dead-release: #ff4d00;
+    --badge-color: #3e4253;
+    --badge-beta-color: #53689c;
+    --link-color: #96de29;
     --hr-color: greenyellow;
-    --code-color: #303241;
+    --code-color: #393c4b;
 }

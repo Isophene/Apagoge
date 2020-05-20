@@ -78,9 +78,9 @@ div#content > #sidebar {
     display: inline-flex;
     flex-direction: column;
 
-    min-width: 50px;
+    min-width: max-content;
     max-width: 150px;
-    width: fit-content;
+    width: max-content;
 
     background-color: var(--sidebar-color);
 
@@ -149,9 +149,65 @@ a.run_link:not(.dead) {
 }
 
 .dead {
-    color: red;
+    cursor: default;
+    color: var(--dead-release);
     text-decoration: line-through;
     filter: brightness(0.9);
+}
+
+.dead:hover {
+    filter: brightness(0.9);
+}
+
+.badge {
+    vertical-align: baseline;
+    position: relative;
+    top: -0.4em;
+    margin-top: 5px;
+
+    cursor: default;
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.badge {
+    background-color: var(--badge-color);
+
+    transition: filter 0.2s linear;
+}
+
+.badge:hover {
+    filter: brightness(0.9);
+}
+
+.badge.beta {
+    background-color: var(--badge-beta-color);
+}
+
+@media (min-width: 800px) {
+    .author {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 75px;
+        margin: 5px;
+        text-align: center;
+        overflow-wrap: break-word;
+    }
+
+    .author > img {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+@media (max-width: 800px) {
+    .author {
+        display: none;
+    }
 }
 
 .commit {
@@ -165,8 +221,10 @@ a.run_link:not(.dead) {
     background-color: var(--code-color);
     white-space: pre-wrap;
     display: inline-block;
-    padding: 5px;
+    padding: 2px 5px;
     border-radius: 5px;
+    margin: 1px 0;
+    word-break: normal;
 }
 
 .commit table {
@@ -175,4 +233,20 @@ a.run_link:not(.dead) {
 
 .commit table, .commit th, .commit td {
     border: 1px solid black;
+}
+
+::-webkit-scrollbar-button {
+    height: 0;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--body-scrollbar-color);
 }

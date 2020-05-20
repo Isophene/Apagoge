@@ -26,17 +26,21 @@
             return;
         }
 
-        $('body').fadeOut(500);
+        let body = $('body');
 
-        setTimeout(() => {
+        body.fadeOut(500, () => {
+            body.css('display', 'none');
+
             if (usingLight) {
                 dark.href = '/css/light.css';
             } else {
                 dark.href = '/css/dark.css';
             }
 
-            $('body').fadeIn(1000);
-        }, 510);
+            body.css('display', null);
+
+            body.fadeIn(1000);
+        });
     }
 
     updateTheme();

@@ -3,7 +3,7 @@
     "use strict";
 
     // These are hacks to get storm to shut up
-    let release; let asset; release = asset = Object.create(null, {}); release.assets = release.tag_name = asset.browser_download_url = undefined;
+    let release; let asset; release = asset = Object.create(null, {}); release.assets = release.prerelease = release.draft = release.tag_name = asset.browser_download_url = undefined;
 
     let sidebarElem = document.getElementById('sidebar').children[0];
     let dataElem = document.getElementById('data');
@@ -52,6 +52,7 @@
 
         for (let i = 0; i < bob.length; i++) {
             let dataHolder = document.createElement('div');
+            let releaseTitle = document.createElement('div');
             let releaseName = document.createElement('a');
 
             releaseName.classList.add('run_link');
@@ -64,7 +65,9 @@
                 releaseName.innerText = release.name;
             }
 
-            dataHolder.appendChild(releaseName);
+            releaseTitle.appendChild(releaseName);
+
+            dataHolder.appendChild(releaseTitle);
 
             let assets = release.assets;
 
@@ -81,8 +84,12 @@
                     dataHolder.appendChild(nameOfItem);
                 }
             } else {
+                releaseName.title = 'There are no artifacts on this build';
                 releaseName.classList.add('dead');
             }
+
+            addBadge(release.draft, releaseTitle, 'UNRELEASED', 'draft');
+            addBadge(release.prerelease, releaseTitle, 'BETA', 'beta');
 
             dataHolder.style.marginBottom = '5px';
 
@@ -100,11 +107,16 @@
 
         let releaseName = document.createElement('div');
 
+        object.style.position = 'relative';
+
         if (release.name.length === 0) {
             releaseName.innerText = 'Release ' + release.tag_name;
         } else {
             releaseName.innerText = release.name;
         }
+
+        addBadge(release.draft, releaseName, 'UNRELEASED', 'draft');
+        addBadge(release.prerelease, releaseName, 'BETA', 'beta');
 
         object.appendChild(releaseName);
 
@@ -121,6 +133,17 @@
             object.appendChild(nameOfItem);
         }
 
+        let author = document.createElement('figure');
+        let authorPFP = document.createElement('img');
+        let authorName = document.createElement('figcaption');
+        authorPFP.src = release.author.avatar_url;
+        authorName.innerText = 'Released by: ' + release.author.login.replace('[bot]', '');
+
+        author.appendChild(authorPFP);
+        author.appendChild(authorName);
+
+        author.classList.add('author');
+
         let commitMessage = document.createElement('div');
         commitMessage.classList.add('commit');
 
@@ -129,7 +152,25 @@
         // Heals all wounds?
         commitMessage.innerHTML = beautify.replace('❤', '<span style="color: red">❤</span>');
 
+        object.appendChild(author);
         object.appendChild(commitMessage);
+    }
+
+    function addBadge(condition, parent, text, tag) {
+        if (condition) {
+            let space = document.createElement('span');
+            let badge = document.createElement('span');
+
+            space.innerText = ' ';
+            badge.innerText = text;
+            badge.classList.add('badge');
+            badge.classList.add(tag);
+
+            space.style.cursor = 'default';
+
+            parent.appendChild(space);
+            parent.appendChild(badge);
+        }
     }
 
     /**
@@ -164,7 +205,11 @@
 
         try {
             if (sessionStorage[b64] != null) {
-                return JSON.parse(decodeURIComponent(escape(atob(sessionStorage[b64]))));
+                let cached = JSON.parse(decodeURIComponent(escape(atob(sessionStorage[b64]))));
+
+                console.log(cached);
+
+                return cached;
             }
         } catch (e) {
         }
