@@ -2,10 +2,6 @@
 (function() {
     "use strict";
 
-    // These are hacks to get storm to shut up
-    let release; let asset; release = asset = Object.create(null, {});
-    release.assets = release.author = release.author.avatar_url = release.author.login = release.prerelease = release.draft = release.tag_name = asset.browser_download_url = undefined;
-
     let sidebarElem = document.getElementById('sidebar').children[0];
     let dataElem = document.getElementById('data');
     let loadingElem = document.getElementById('loading');
