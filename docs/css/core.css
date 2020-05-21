@@ -252,6 +252,17 @@ a.run_link:not(.dead) {
     word-break: normal;
 }
 
+.commit blockquote {
+    border-left: var(--hr-color) 2px solid;
+    background-color: var(--code-color);
+    padding: 10px 5px;
+    margin: 0;
+}
+
+.commit blockquote > p {
+    margin: 0;
+}
+
 .commit table {
     border-collapse: collapse;
 }
