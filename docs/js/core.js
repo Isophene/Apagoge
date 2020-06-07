@@ -16,11 +16,33 @@
         let elem = document.createElement('a');
 
         elem.innerText = id;
+        elem.id = 'repo-' + id;
 
         elem.addEventListener('click', () => getGithubRuns(id));
 
         sidebarElem.appendChild(elem);
     });
+    
+    // Save the id
+    if (window.location.hash && window.location.hash.length > 0) {
+        let hash = window.location.hash.substring(1);
+        
+        if (hash.length > 0) {
+            for (let i = 0; i < repoIds.length; i++) {
+                let repoId = repoIds[i];
+                
+                if (repoId.toLowerCase() == hash.toLowerCase()) {
+                    let element = document.getElementById('repo-' + repoId);
+                    
+                    if (element != null) {
+                        element.click();
+                    }
+                    
+                    break;
+                }
+            }
+        }
+    }
 
     async function getGithubRuns(id) {
         // Store the ID of this id
