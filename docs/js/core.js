@@ -24,25 +24,33 @@
     });
     
     // Save the id
-    if (window.location.hash && window.location.hash.length > 0) {
-        let hash = window.location.hash.substring(1);
-        
-        if (hash.length > 0) {
-            for (let i = 0; i < repoIds.length; i++) {
-                let repoId = repoIds[i];
-                
-                if (repoId.toLowerCase() == hash.toLowerCase()) {
-                    let element = document.getElementById('repo-' + repoId);
+    function checkHashId() {
+        if (window.location.hash && window.location.hash.length > 0) {
+            let hash = window.location.hash.substring(1);
+            
+            if (hash.length > 0) {
+                for (let i = 0; i < repoIds.length; i++) {
+                    let repoId = repoIds[i];
                     
-                    if (element != null) {
-                        element.click();
+                    if (repoId.toLowerCase() == hash.toLowerCase()) {
+                        let element = document.getElementById('repo-' + repoId);
+                        
+                        if (element != null) {
+                            element.click();
+                        }
+                    
+                        break;
                     }
-                    
-                    break;
                 }
             }
         }
     }
+    
+    // Check if it exists
+    checkHashId();
+    
+    // If it changes in the future we should catch it as well
+    window.addEventListener('hashchange', checkHashId);
 
     async function getGithubRuns(id) {
         // Store the ID of this id
