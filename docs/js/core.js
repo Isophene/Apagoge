@@ -7,7 +7,7 @@
     let loadingElem = document.getElementById('loading');
 
     let repoUser = 'boomboompower';
-    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'MessageAlerter', 'MyIgnore'];
+    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'FPSSpoofer', 'MessageAlerter', 'MyIgnore'];
 
     // The ID of the LAST clicked id.
     let wantingCurrent = null;
