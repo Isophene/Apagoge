@@ -104,6 +104,7 @@
             let releaseTitle = document.createElement('div');
             let releaseName = document.createElement('a');
 
+            releaseName.href = '#';
             releaseName.classList.add('run_link');
 
             let release = bob[i];
