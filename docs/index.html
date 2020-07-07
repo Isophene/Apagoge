@@ -12,7 +12,7 @@
         <meta property="og:description" content="An indirect argument which proves a thing by showing the impossibility or absurdity of the contrary." />
         <meta property="og:image" content="https://avatars3.githubusercontent.com/u/12974350?s=460&u=38c0ae0172349f3f23c03c25b6d3a930933e055e" />
         
-        <link id="dark" rel="stylesheet" href="/css/light.css">
+        <link id="dark" rel="stylesheet" href="/css/theme.css">
         <link rel="stylesheet" href="/css/core.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100;300&display=swap" rel="stylesheet">
@@ -20,8 +20,21 @@
     <body>
         <nav>
             <div>
-                <h2>Apagoge</h2><sup style="transform: translateY(10px);">1.1</sup><span style="margin-left: 7px;">by Isophene</span>
-                <a id="theme" href="#" style="margin-left: auto">Light/Dark</a>
+                <div>
+                    <h2>Apagoge</h2>
+                    <sup>1.2</sup>
+                    <span style="margin-left: 7px;">by Isophene</span>
+                </div>
+                <div class="right">
+                    <a id="theme" href="#">Light/Dark</a>
+                    <label>
+                        <select id="filter">
+                            <option value="all" selected>Everything</option>
+                            <option value="off">Only Releases</option>
+                            <option value="only">Only Betas</option>
+                        </select>
+                    </label>
+                </div>
             </div>
         </nav>
         <div id="loading">
@@ -35,6 +48,8 @@
                 <div class="no" style="margin: auto; text-align: center">
                     <div>Click a repository to get started.</div>
                     <div>You will see every available release for said repository.</div>
+                    <br>
+                    
                 </div>
             </div>
         </div>

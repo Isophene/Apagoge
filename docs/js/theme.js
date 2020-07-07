@@ -1,8 +1,7 @@
 (function() {
-    let dark = document.getElementById('dark');
     let theme = document.getElementById('theme');
 
-    if (dark == null || theme == null) {
+    if (theme == null) {
         return;
     }
 
@@ -22,7 +21,9 @@
     });
 
     function updateTheme() {
-        if (usingLight && dark.href.includes('/css/light.css')) {
+        if (usingLight && !document.body.classList.contains('dark')) {
+            document.body.classList.remove('dark');
+
             return;
         }
 
@@ -32,9 +33,9 @@
             body.css('display', 'none');
 
             if (usingLight) {
-                dark.href = '/css/light.css';
+                document.body.classList.remove('dark');
             } else {
-                dark.href = '/css/dark.css';
+                document.body.classList.add('dark');
             }
 
             body.css('display', null);

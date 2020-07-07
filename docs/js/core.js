@@ -2,15 +2,39 @@
 (function() {
     "use strict";
 
+    ////////////////////////////////////////////////Configuration///////////////////////////////////////////////////////
+    //                                                                                                                //
+    let repoUser = 'boomboompower';
+    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'FPSSpoofer', 'MessageAlerter', 'MyIgnore'];
+    //                                                                                                                //
+    ////////////////////////////////////////////////Configuration///////////////////////////////////////////////////////
+
     let sidebarElem = document.getElementById('sidebar').children[0];
     let dataElem = document.getElementById('data');
     let loadingElem = document.getElementById('loading');
-
-    let repoUser = 'boomboompower';
-    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'FPSSpoofer', 'MessageAlerter', 'MyIgnore'];
+    let filter = document.getElementById('filter');
 
     // The ID of the LAST clicked id.
     let wantingCurrent = null;
+
+    // Stored url parameters
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if ( filter != null ) {
+        filter.addEventListener('change', (e) => {
+            if (filter.selectedIndex === 0) {
+                urlParams.delete('beta');
+            } else {
+                urlParams.set('beta', filter[filter.selectedIndex].value);
+            }
+
+            history.replaceState(null, null, "?" + urlParams.toString());
+
+            if (wantingCurrent != null) {
+                getGithubRuns(wantingCurrent);
+            }
+        })
+    }
 
     repoIds.forEach(id => {
         let elem = document.createElement('a');
@@ -18,43 +42,48 @@
         elem.innerText = id;
         elem.id = 'repo-' + id;
 
-        elem.addEventListener('click', () => getGithubRuns(id));
+        elem.addEventListener('click', () => {
+            urlParams.set('mod', id);
+            urlParams.delete('tag');
+
+            history.replaceState({modID: id, tagName: null}, null, "?" + urlParams.toString());
+
+            getGithubRuns(id);
+        });
 
         sidebarElem.appendChild(elem);
     });
-    
+
     // Save the id
-    function checkHashId() {
-        if (window.location.hash && window.location.hash.length > 0) {
-            let hash = window.location.hash.substring(1);
-            
-            if (hash.length > 0) {
-                for (let i = 0; i < repoIds.length; i++) {
-                    let repoId = repoIds[i];
-                    
-                    if (repoId.toLowerCase() == hash.toLowerCase()) {
-                        let element = document.getElementById('repo-' + repoId);
-                        
-                        if (element != null) {
-                            element.click();
-                        }
-                    
-                        break;
+    function checkModId() {
+        let modID = retrieveParam('mod');
+
+        if (modID && modID.length > 0) {
+            for (let i = 0; i < repoIds.length; i++) {
+                let repoId = repoIds[i];
+
+                if (repoId.toLowerCase() === modID.toLowerCase()) {
+                    let element = document.getElementById('repo-' + repoId);
+
+                    if (element != null) {
+                        getGithubRuns(repoId);
                     }
+
+                    break;
                 }
             }
         }
     }
-    
+
     // Check if it exists
-    checkHashId();
-    
+    checkModId();
+
     // If it changes in the future we should catch it as well
-    window.addEventListener('hashchange', checkHashId);
+    window.addEventListener('hashchange', checkModId);
 
     async function getGithubRuns(id) {
         // Store the ID of this id
-        // to prevent data desync occuring.
+        // to prevent data desync occurring.
         wantingCurrent = id;
 
         loadingElem.style.opacity = '1';
@@ -87,7 +116,6 @@
         holder.appendChild(document.createElement('hr'));
 
         if (bob.length === 0) {
-
             let created = createMessageDiv('There were no artifacts for this project');
 
             holder.appendChild(created);
@@ -97,17 +125,49 @@
             return;
         }
 
+        let modParam = retrieveParam('mod');
+        let betaParam = retrieveParam('beta');
+        let tagParam = retrieveParam('tag');
+
         let packedData = document.createElement('div');
 
+        if (modParam === id.toLowerCase() && tagParam) {
+            for (let i = 0; i < bob.length; i++) {
+                let release = bob[i];
+
+                if (release.tag_name === tagParam) {
+                    onReleaseClicked(release, packedData);
+
+                    holder.appendChild(packedData);
+
+                    dataElem.innerHTML = '';
+                    dataElem.appendChild(holder);
+
+                    return;
+                }
+            }
+        }
+
+        let packCount = 0;
+
         for (let i = 0; i < bob.length; i++) {
+            let release = bob[i];
+
+            if (release.prerelease && betaParam && (betaParam === 'hidden' || betaParam === 'off' || betaParam === 'none')) {
+                continue;
+            } else if (!release.prerelease && betaParam && betaParam === 'only') {
+                continue;
+            }
+
+            packCount++;
+
             let dataHolder = document.createElement('div');
             let releaseTitle = document.createElement('div');
             let releaseName = document.createElement('a');
 
-            releaseName.href = '#';
+            releaseName.href = '#tag=' + release.tag_name;
             releaseName.classList.add('run_link');
 
-            let release = bob[i];
 
             if (release.name.length === 0) {
                 releaseName.innerText = 'Release ' + release.tag_name;
@@ -122,7 +182,15 @@
             let assets = release.assets;
 
             if (assets.length > 0) {
-                releaseName.addEventListener('click', () => onReleaseClicked(release, packedData));
+                releaseName.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    urlParams.set('tag', release.tag_name);
+
+                    history.replaceState({modID: id, tagName: release.tag_name}, null, "?" + urlParams.toString());
+
+                    onReleaseClicked(release, packedData);
+                });
 
                 for (let assetIndex = assets.length - 1; assetIndex >= 0; assetIndex--) {
                     let asset = assets[assetIndex];
@@ -141,9 +209,19 @@
             addBadge(release.draft, releaseTitle, 'UNRELEASED', 'draft');
             addBadge(release.prerelease, releaseTitle, 'BETA', 'beta');
 
-            dataHolder.style.marginBottom = '5px';
+            dataHolder.classList.add('release');
 
             packedData.appendChild(dataHolder);
+        }
+
+        if (packCount === 0) {
+            let created = createMessageDiv('There were no artifacts for this project');
+
+            holder.appendChild(created);
+
+            dataElem.innerHTML = '';
+            dataElem.appendChild(holder);
+            return;
         }
 
         holder.appendChild(packedData);
@@ -179,6 +257,7 @@
             downloadLink.innerHTML = '&nbsp; ' + asset.name + ' (<a href="' + asset.browser_download_url + '">Download</a>)';
 
             nameOfItem.appendChild(downloadLink);
+            nameOfItem.setAttribute('downloads', asset.download_count);
 
             object.appendChild(nameOfItem);
         }
@@ -274,6 +353,16 @@
         }
 
         // Return the JSON of the value
+        return value;
+    }
+
+    function retrieveParam(key) {
+        let value = urlParams.get(key);
+
+        if (value != null) {
+            value = value.toLowerCase();
+        }
+
         return value;
     }
 })();

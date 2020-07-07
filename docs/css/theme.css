@@ -1,0 +1,40 @@
+
+body.dark {
+    --body-background-color: #282a36;
+    --body-scrollbar-color: #4d5066;
+    --body-color: #eeeeee;
+
+    --nav-color: #44475a;
+
+    --sidebar-color: #44475a;
+    --sidebar-child-odd-color: #303241;
+    --sidebar-link-color: #92cee0;
+    --sidebar-link-decoration: underline solid transparent;
+
+    --dead-release: #ff4d00;
+    --badge-color: #3e4253;
+    --badge-beta-color: #53689c;
+    --link-color: #96de29;
+    --hr-color: greenyellow;
+    --code-color: #393c4b;
+}
+
+body:not(.dark) {
+    --body-background-color: #eeeeee;
+    --body-scrollbar-color: #808080;
+    --body-color: #282a36;
+
+    --nav-color: #dddddd;
+
+    --sidebar-color: #dddddd;
+    --sidebar-child-odd-color: #cccccc;
+    --sidebar-link-color: #282a36;
+    --sidebar-link-decoration: underline solid #282a36;
+
+    --dead-release: red;
+    --badge-color: #878bb5;
+    --badge-beta-color: #ffaa2c;
+    --link-color: royalblue;
+    --hr-color: royalblue;
+    --code-color: #a0a8d9;
+}
