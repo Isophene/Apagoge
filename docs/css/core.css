@@ -1,6 +1,6 @@
 html {
-    font-family: 'Jost', 'Sergoe UI', sans-serif;
-    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: normal;
 
     height: 100%;
 
@@ -33,11 +33,13 @@ h1, h2, h3, h4, h5, h6 {
 a {
     color: var(--link-color);
 
-    transition: filter 0.2s linear;
+    text-decoration: none;
+
+    transition: color 0.2s linear;
 }
 
 a:hover {
-    filter: brightness(0.8);
+    color: var(--dark-link-color);
 }
 
 hr {
@@ -107,7 +109,22 @@ div#content {
 }
 
 .release {
+    display: flex;
+    padding-top: 1rem !important;
     margin-bottom: 5px;
+    font-weight: 400;
+    line-height: 1.5;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.release a {
+    width: fit-content;
+}
+
+div[downloads] {
+    margin-top: 3px;
 }
 
 div[downloads]:after {
@@ -117,6 +134,15 @@ div[downloads]:after {
 
     vertical-align: super;
     font-size: smaller;
+
+    background-color: var(--bullet-background);
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
 }
 
 div#content > #sidebar {
@@ -159,8 +185,6 @@ div#content > #sidebar {
     cursor: pointer;
     color: var(--sidebar-link-color);
 
-    text-decoration: var(--sidebar-link-decoration);
-
     transition: all 0.14s linear;
 }
 
@@ -185,9 +209,10 @@ div#content > #data > div {
     height: 1px;
 }
 
-div#content > #data > div:not(.no) > *:first-child {
-    text-align: center;
-    font-size: 1.3em;
+div#content > #data > div:not(.no) {
+    width: 100%;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
  }
 
 a.run_link:not(.dead) {
@@ -209,30 +234,38 @@ a.run_link:not(.dead) {
     filter: brightness(0.9);
 }
 
-.badge {
-    vertical-align: baseline;
-    position: relative;
-    top: -0.4em;
-    margin-top: 5px;
-
-    cursor: default;
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px;
-    border-radius: 5px;
+a[badge]:after {
+    pointer-events: none;
 }
 
-.badge {
+.badge, a[badge]:after {
+    color: var(--body-color);
+    content: attr(badge);
+    text-transform: uppercase;
+
+    vertical-align: baseline;
+    position: relative;
+    cursor: default;
+    display: inline-block;
+
+    font-size: 10px;
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+    margin-left: 5px;
+}
+
+.badge, a[badge]:after {
     background-color: var(--badge-color);
 
     transition: filter 0.2s linear;
 }
 
-.badge:hover {
+.badge:hover, a[badge]:hover:after {
     filter: brightness(0.9);
 }
 
-.badge.beta {
+.badge.beta, a[badge="beta"]:after {
     background-color: var(--badge-beta-color);
 }
 
@@ -266,6 +299,7 @@ a.run_link:not(.dead) {
 
 .commit {
     font-family: monospace;
+    font-size: 12px;
 
     margin-top: 20px;
     padding: 5px;
@@ -275,10 +309,15 @@ a.run_link:not(.dead) {
     background-color: var(--code-color);
     white-space: pre-wrap;
     display: inline-block;
-    padding: 2px 5px;
-    border-radius: 5px;
-    margin: 1px 0;
+    padding: 7px 8px;
+    border-radius: 4px;
+    margin: 3px 0;
     word-break: normal;
+}
+
+.commit li > code, .commit p > code {
+    padding: 2px 5px;
+    margin: 1px 0;
 }
 
 .commit blockquote {
@@ -286,6 +325,8 @@ a.run_link:not(.dead) {
     background-color: var(--code-color);
     padding: 10px 5px;
     margin: 0;
+
+    max-width: 70%;
 }
 
 .commit blockquote > p {

@@ -105,15 +105,20 @@
         loadingElem.style.opacity = '0';
 
         const holder = document.createElement('div');
-        const title = document.createElement('div');
 
-        holder.style.fontFamily = 'monospace';
+        const bannerBox = document.createElement('div');
+        bannerBox.classList.add('banner-box');
 
+        const bannerBoxDiv = document.createElement('div');
+        const title = document.createElement('h6');
         title.innerText = id;
-        holder.style.width = '100%';
+        bannerBoxDiv.appendChild(title);
 
-        holder.appendChild(title);
-        holder.appendChild(document.createElement('hr'));
+        bannerBox.appendChild(bannerBoxDiv);
+        holder.appendChild(bannerBox);
+
+        // holder.appendChild(title);
+        // holder.appendChild(document.createElement('hr'));
 
         if (bob.length === 0) {
             let created = createMessageDiv('There were no artifacts for this project');
@@ -130,6 +135,8 @@
         let tagParam = retrieveParam('tag');
 
         let packedData = document.createElement('div');
+
+        packedData.classList.add('content-box');
 
         if (modParam === id.toLowerCase() && tagParam) {
             for (let i = 0; i < bob.length; i++) {
@@ -192,22 +199,25 @@
                     onReleaseClicked(release, packedData);
                 });
 
-                for (let assetIndex = assets.length - 1; assetIndex >= 0; assetIndex--) {
-                    let asset = assets[assetIndex];
+                let dateReleased = new Date(release.created_at);
 
-                    let nameOfItem = document.createElement('div');
+                let o = document.createElement('span');
 
-                    nameOfItem.innerHTML = '&nbsp; ' + asset.name;
+                o.innerText = 'Released ' + dateReleased.toDateString();
 
-                    dataHolder.appendChild(nameOfItem);
-                }
+                releaseTitle.appendChild(o);
             } else {
                 releaseName.title = 'There are no artifacts on this build';
                 releaseName.classList.add('dead');
             }
 
-            addBadge(release.draft, releaseTitle, 'UNRELEASED', 'draft');
-            addBadge(release.prerelease, releaseTitle, 'BETA', 'beta');
+            if (release.draft) {
+                releaseName.setAttribute('badge', 'draft');
+            }
+
+            if (release.prerelease) {
+                releaseName.setAttribute('badge', 'beta');
+            }
 
             dataHolder.classList.add('release');
 
