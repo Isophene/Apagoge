@@ -12,7 +12,7 @@
 
     let usingLight = localStorage.getItem('light') === 'true';
 
-    theme.addEventListener('click', () => {
+    theme.addEventListener('click', function() {
         usingLight = !usingLight;
 
         localStorage.setItem('light', usingLight.toString());
@@ -29,7 +29,7 @@
 
         let body = $('body');
 
-        body.fadeOut(500, () => {
+        body.fadeOut(500, function() {
             body.css('display', 'none');
 
             if (usingLight) {
