@@ -45,7 +45,7 @@ function usingIE() {
         elem.innerText = id;
         elem.id = 'repo-' + id;
 
-        elem.addEventListener('click', () => {
+        elem.addEventListener('click', function() {
             urlParams.set('mod', id);
             urlParams.delete('tag');
 
@@ -349,14 +349,14 @@ function usingIE() {
             if (sessionStorage[b64] != null) {
                 let cached = JSON.parse(decodeURIComponent(escape(atob(sessionStorage[b64]))));
 
-                console.log(cached);
+                // console.log(cached);
 
                 return cached;
             }
         } catch (e) {
         }
 
-        let value = await fetch(url).then(o => o.json());
+        let value = await fetch(url).then(function(o) { o.json() } );
         let strung = JSON.stringify(value);
 
         // If the result is a rate limit, we can't use the result
