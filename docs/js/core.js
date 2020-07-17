@@ -1,3 +1,6 @@
+function usingIE() {
+    return window.navigator.userAgent.indexOf("MSIE ") > 0;
+}
 
 (function() {
     "use strict";
@@ -21,7 +24,7 @@
     const urlParams = new URLSearchParams(window.location.search);
 
     if ( filter != null ) {
-        filter.addEventListener('change', (e) => {
+        filter.addEventListener('change', function(e) {
             if (filter.selectedIndex === 0) {
                 urlParams.delete('beta');
             } else {
@@ -36,7 +39,7 @@
         })
     }
 
-    repoIds.forEach(id => {
+    repoIds.forEach(function(id) {
         let elem = document.createElement('a');
 
         elem.innerText = id;
@@ -189,7 +192,7 @@
             let assets = release.assets;
 
             if (assets.length > 0) {
-                releaseName.addEventListener('click', (e) => {
+                releaseName.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     urlParams.set('tag', release.tag_name);
