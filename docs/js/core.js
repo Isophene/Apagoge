@@ -1,6 +1,3 @@
-function usingIE() {
-    return window.navigator.userAgent.indexOf("MSIE ") > 0;
-}
 
 (function() {
     "use strict";
@@ -24,7 +21,7 @@ function usingIE() {
     const urlParams = new URLSearchParams(window.location.search);
 
     if ( filter != null ) {
-        filter.addEventListener('change', function(e) {
+        filter.addEventListener('change', (e) => {
             if (filter.selectedIndex === 0) {
                 urlParams.delete('beta');
             } else {
@@ -39,13 +36,13 @@ function usingIE() {
         })
     }
 
-    repoIds.forEach(function(id) {
+    repoIds.forEach(id => {
         let elem = document.createElement('a');
 
         elem.innerText = id;
         elem.id = 'repo-' + id;
 
-        elem.addEventListener('click', function() {
+        elem.addEventListener('click', () => {
             urlParams.set('mod', id);
             urlParams.delete('tag');
 
@@ -192,7 +189,7 @@ function usingIE() {
             let assets = release.assets;
 
             if (assets.length > 0) {
-                releaseName.addEventListener('click', function(e) {
+                releaseName.addEventListener('click', (e) => {
                     e.preventDefault();
 
                     urlParams.set('tag', release.tag_name);
@@ -349,14 +346,14 @@ function usingIE() {
             if (sessionStorage[b64] != null) {
                 let cached = JSON.parse(decodeURIComponent(escape(atob(sessionStorage[b64]))));
 
-                // console.log(cached);
+                console.log(cached);
 
                 return cached;
             }
         } catch (e) {
         }
 
-        let value = await fetch(url).then(function(o) { o.json() } );
+        let value = await fetch(url).then(o => o.json());
         let strung = JSON.stringify(value);
 
         // If the result is a rate limit, we can't use the result
