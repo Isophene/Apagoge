@@ -5,7 +5,16 @@
     ////////////////////////////////////////////////Configuration///////////////////////////////////////////////////////
     //                                                                                                                //
     let repoUser = 'boomboompower';
-    let repoIds = ['SkinChanger', 'ToggleChat', 'TextDisplayer', 'AutoGG', 'FPSSpoofer', 'MessageAlerter', 'MyIgnore'];
+    let repoIds = [
+        'SkinChanger',
+        'ToggleChat',
+        'TextDisplayer',
+        'AutoGG',
+        'FPSSpoofer',
+        'MessageAlerter',
+        'MyIgnore',
+        'SkinChangerFabric'
+    ];
     //                                                                                                                //
     ////////////////////////////////////////////////Configuration///////////////////////////////////////////////////////
 
@@ -139,11 +148,31 @@
         packedData.classList.add('content-box');
 
         if (modParam === id.toLowerCase() && tagParam) {
-            for (let i = 0; i < bob.length; i++) {
-                let release = bob[i];
+            // Logic for the "latest" release tag.
+            if (tagParam === "latest") {
+                let latestRelease = null;
 
-                if (release.tag_name === tagParam) {
-                    onReleaseClicked(release, packedData);
+                for (let i = 0; i < bob.length; i++) {
+                    let release = bob[i];
+
+                    if (release.prerelease || release.draft) {
+                        continue;
+                    }
+
+                    if (latestRelease == null) {
+                        latestRelease = release;
+                    } else {
+                        // -1 if 2nd param larger, 0 if equal, 1 if first param larger.
+                        let comparison = compareVersions(latestRelease.tag_name, release.tag_name);
+
+                        if (comparison < 0) {
+                            latestRelease = release;
+                        }
+                    }
+                }
+
+                if (latestRelease != null) {
+                    onReleaseClicked(latestRelease, packedData);
 
                     holder.appendChild(packedData);
 
@@ -151,6 +180,49 @@
                     dataElem.appendChild(holder);
 
                     return;
+                }
+            } else if (tagParam === "latest-beta") {
+                let latestRelease = null;
+
+                for (let i = 0; i < bob.length; i++) {
+                    let release = bob[i];
+
+                    if (latestRelease == null) {
+                        latestRelease = release;
+                    } else {
+                        // -1 if 2nd param larger, 0 if equal, 1 if first param larger.
+                        let comparison = compareVersions(latestRelease.tag_name, release.tag_name);
+
+                        if (comparison < 0) {
+                            latestRelease = release;
+                        }
+                    }
+                }
+
+                if (latestRelease != null) {
+                    onReleaseClicked(latestRelease, packedData);
+
+                    holder.appendChild(packedData);
+
+                    dataElem.innerHTML = '';
+                    dataElem.appendChild(holder);
+
+                    return;
+                }
+            } else {
+                for (let i = 0; i < bob.length; i++) {
+                    let release = bob[i];
+
+                    if (release.tag_name === tagParam) {
+                        onReleaseClicked(release, packedData);
+
+                        holder.appendChild(packedData);
+
+                        dataElem.innerHTML = '';
+                        dataElem.appendChild(holder);
+
+                        return;
+                    }
                 }
             }
         }
