@@ -1,0 +1,6 @@
+# Allow crawling on the main page
+# Stop crawling on redirected links.
+User-Agent: *
+Disallow:
+Disallow: /redir
+Disallow: /redir/*

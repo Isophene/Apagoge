@@ -336,7 +336,15 @@
             let nameOfItem = document.createElement('div');
             let downloadLink = document.createElement('span');
 
-            downloadLink.innerHTML = '&nbsp; ' + asset.name + ' (<a href="' + asset.browser_download_url + '">Download</a>)';
+            let constructedLink;
+
+            if (urlParams.has("dl")) {
+                constructedLink = asset.browser_download_url;
+            } else {
+                constructedLink = window.location.protocol + '//' + window.location.host + '/redir?location=' + btoa(asset.browser_download_url);
+            }
+
+            downloadLink.innerHTML = '&nbsp; ' + asset.name + ' (<a href="' + constructedLink + '">Download</a>)';
 
             nameOfItem.appendChild(downloadLink);
             nameOfItem.setAttribute('downloads', asset.download_count);
